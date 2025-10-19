@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>✨ Tech Hotel Management ✨</title>
+<style>
+  :root{
+    --accent1: #ff9966;
+    --accent2: #ff5e62;
+    --btn-blue1: #36d1dc;
+    --btn-blue2: #5b86e5;
+    --warm1: #f12711;
+    --warm2: #f5af19;
+    --bg1: #FFDEE9;
+    --bg2: #B5FFFC;
+    --menuBg1:#fbc2eb;
+    --menuBg2:#a6c1ee;
+    --dark1: #141E30;
+    --dark2: #243B55;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  html,body { height:100%; margin:0; }
+  body { display:flex; align-items:stretch; justify-content:center; background: linear-gradient(135deg,var(--bg1),var(--bg2)); }
+
+  .app {
+    width:1200px; height:800px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    border-radius: 12px; overflow:hidden; position:relative;
+    display:flex; flex-direction:column;
+  }
+
+  /* Header */
+  .header {
+    padding: 22px 30px; display:flex; align-items:center; justify-content:space-between;
+    background: linear-gradient(90deg,#fff7,#fff0);
+  }
+  .title {
+    font-family: "Verdana", sans-serif;
+    font-weight:800; font-size:28px; color: #0f2a60;
+  }
+  .fullscreen-btn {
+    background:linear-gradient(90deg,var(--accent1),var(--accent2));
+    color:white;border:0;padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;
+  }
+
+  /* Pages */
+  .page { flex:1; padding:30px; overflow:auto; display:none; }
+  .page.active { display:block; }
+
+  /* Table selection */
+  .table-selection { text-align:center; }
+  .table-selection .welcome { font-size:42px; font-weight:900; color:darkblue; margin:6px 0; }
+  .instructions { font-weight:700; font-size:18px; color: #2f3b46; margin-bottom:18px; white-space:pre-line; }
+  .tables { display:grid; grid-template-columns:repeat(5,1fr); gap:20px; justify-items:center; margin-top:12px; }
+  .table-btn{
+    width:180px;height:70px;border-radius:20px;border:0;font-size:20px;font-weight:700;color:white;
+    background:linear-gradient(90deg,var(--accent1),var(--accent2)); cursor:pointer;
+  }
+
+  /* Menu page */
+  .menu-page {
+    background: linear-gradient(135deg,var(--menuBg1),var(--menuBg2));
+    padding-bottom:60px;
+  }
+  .back-btn{ background:#ff5e62;color:white;border:0;padding:8px 12px;border-radius:8px;font-weight:700; cursor:pointer; }
+  .menu-sections { margin-top:20px; display:flex; flex-direction:column; gap:28px; align-items:center; padding-bottom:40px; }
+  .section { width:100%; max-width:1000px; background:rgba(255,255,255,0.06); padding:18px; border-radius:12px; }
+  .section h2 { font-family:Verdana; font-weight:800; font-size:22px; color: darkblue; margin:0 0 10px 0; }
+  .section .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+  .item-btn {
+    height:70px;border-radius:15px;border:0;font-weight:700;font-size:16px;color:white;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    box-shadow:0 6px 10px rgba(0,0,0,0.12);
+    background:linear-gradient(90deg,var(--btn-blue1),var(--btn-blue2));
+  }
+
+  .menu-bottom { position:sticky; bottom:0; padding:12px 30px; display:flex; justify-content:flex-end; background:linear-gradient(180deg,transparent,rgba(0,0,0,0.05)); }
+  .cart-btn { background:#f8b400;border:0;padding:12px 18px;border-radius:14px;font-weight:800; cursor:pointer; }
+
+  /* Cart page */
+  .cart-page { background: linear-gradient(90deg,var(--dark1),var(--dark2)); color:white; display:flex; flex-direction:column; align-items:center; }
+  .cart-title { font-size:28px; font-weight:900; margin:10px 0; }
+  .cart-list { width:80%; max-width:900px; background:#f0f0f0;color:#111;border-radius:8px;padding:12px; margin:12px 0; min-height:220px; }
+  .cart-item { padding:8px 6px; font-size:18px; display:flex; justify-content:space-between; align-items:center; }
+  .total { font-weight:800; font-size:20px; margin-top:8px; color: #FFF7; }
+  .cart-actions { margin-top:18px; display:flex; gap:12px; }
+  .action-btn { padding:10px 18px;border-radius:12px;border:0;font-weight:700; cursor:pointer; }
+  .reorder { background:#4CAF50;color:white; } .delete { background:#f44336;color:white; } .pay { background:#2196F3;color:white; }
+
+  /* Payment page */
+  .payment-page { background: linear-gradient(135deg,var(--warm1),var(--warm2)); color:white; display:flex; flex-direction:column; align-items:center; }
+  .pay-title { font-size:34px; font-weight:900; margin-top:10px; }
+  .pay-actions { display:flex; flex-direction:column; gap:12px; margin-top:20px; }
+  .pay-actions .pay-btn { width:320px; padding:12px 18px; border-radius:14px; border:0; font-size:18px; font-weight:800; cursor:pointer; }
+  .msg-label { margin-top:18px; font-weight:800; font-size:18px; text-align:center; white-space:pre-line; }
+
+  /* Overlays & toast */
+  .overlay {
+    position:fixed; left:0; top:0; width:100vw; height:100vh; display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,0.35); z-index:9999;
+  }
+  .modal {
+    background:rgba(0,0,0,0.9); color:white; padding:24px; border-radius:16px; min-width:320px; max-width:420px; text-align:center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .modal h3 { margin:0 0 10px 0; font-size:20px; }
+  .modal input[type=number] { width:120px; font-size:18px; padding:8px; margin:12px 0; text-align:center; border-radius:8px; border:0; }
+  .modal .modal-actions { display:flex; gap:12px; justify-content:center; }
+  .ok-btn { background:#4CAF50;border:0;padding:10px 16px;border-radius:10px;color:white;font-weight:800; cursor:pointer; }
+  .cancel-btn { background:#f44336;border:0;padding:10px 16px;border-radius:10px;color:white;font-weight:800; cursor:pointer; }
+
+  .toast {
+    position:fixed; left:50%; transform:translateX(-50%); bottom:36px; background:rgba(0,0,0,0.85); color: #ffdd57; padding:12px 18px; border-radius:10px; font-weight:800;
+    z-index:10000; display:none;
+  }
+
+  @media(max-width:1250px){
+    .app{ width:95%; height:90vh; }
+    .tables { grid-template-columns:repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="header">
+    <div class="title">✨ Tech Hotel Management ✨</div>
+    <div><button class="fullscreen-btn" id="enterFs">Enter Fullscreen</button></div>
+  </div>
+
+  <!-- Table Selection -->
+  <div class="page table-selection active" id="page-tables">
+    <div class="welcome">✨ Welcome to Tech Hotel ✨</div>
+    <div class="instructions">📌 Instructions:
+1. Select your table.
+2. Select dishes with quantity.
+3. Modify/delete items before payment.
+4. Proceed to payment.</div>
+    <div class="tables" id="tablesGrid"></div>
+  </div>
+
+  <!-- Menu -->
+  <div class="page menu-page" id="page-menu">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button class="back-btn" id="menuBack">⬅ Back</button>
+      <div style="flex:1"></div>
+    </div>
+    <div class="menu-sections" id="menuSections"></div>
+    <div class="menu-bottom"><button class="cart-btn" id="viewCartBtn">🛒 View Cart</button></div>
+  </div>
+
+  <!-- Cart -->
+  <div class="page cart-page" id="page-cart">
+    <div class="cart-title" id="cartTitle">🛒 Cart</div>
+    <div class="cart-list" id="cartList"></div>
+    <div class="total" id="totalLabel">Total Bill: ₹0</div>
+    <div class="cart-actions">
+      <button class="action-btn reorder" id="reorderBtn">🔄 Reorder</button>
+      <button class="action-btn delete" id="deleteBtn">🗑 Delete Order</button>
+      <button class="action-btn pay" id="paymentBtn">💳 Payment</button>
+    </div>
+  </div>
+
+  <!-- Payment -->
+  <div class="page payment-page" id="page-payment">
+    <div class="pay-title">💰 Payment Options</div>
+    <div class="pay-actions">
+      <button class="pay-btn" id="checkItemsBtn" style="background:#4CAF50;">✅ Check Items</button>
+      <button class="pay-btn" id="cashCounterBtn" style="background:#2196F3;">💵 Cash at Counter</button>
+      <button class="pay-btn" id="cashMobileBtn" style="background:#FF5722;">📱 Cash via Mobile</button>
+    </div>
+    <div class="msg-label" id="paymentMsg"></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+(function(){
+  let selectedTable = 0;
+  const cart = {};
+  const priceMap = {};
+
+  const menu = [
+    { section: "Breakfast", items: ["Idli","Vada","Pongal","Upma","Dosa"], prices: [50,60,55,50,70] },
+    { section: "Lunch", items: ["Steamed Rice","Tamarind Rice","Lemon Rice","Curd Rice","Veg Biryani"], prices: [50,55,50,50,80] },
+    { section: "Dinner", items: ["Dosa","Rava Dosa","Ghee Dosa","Pesarattu","Set Dosa"], prices: [70,60,75,80,70] },
+    { section: "Drinks", items: ["Lemon Juice","Coconut Water","Buttermilk"], prices: [40,50,30] }
+  ];
+
+  const tablesGrid = document.getElementById('tablesGrid');
+  const menuSections = document.getElementById('menuSections');
+  const pageTables = document.getElementById('page-tables');
+  const pageMenu = document.getElementById('page-menu');
+  const pageCart = document.getElementById('page-cart');
+  const pagePayment = document.getElementById('page-payment');
+  const cartList = document.getElementById('cartList');
+  const totalLabel = document.getElementById('totalLabel');
+  const cartTitle = document.getElementById('cartTitle');
+  const paymentMsg = document.getElementById('paymentMsg');
+  const toast = document.getElementById('toast');
+
+  // Table Buttons (with smooth welcome)
+  for(let i=1;i<=10;i++){
+    const b=document.createElement('button');
+    b.className='table-btn';
+    b.textContent='Table '+i;
+    b.addEventListener('click',()=>{
+      selectedTable=i;
+      const overlay=document.createElement('div');
+      overlay.className='overlay';
+      overlay.innerHTML=`<div class="modal" style="background:rgba(255,255,255,0.95);color:#111;">
+        <h3>Welcome Table ${i} 🍽️</h3>
+        <p style="font-weight:600;">Preparing your menu...</p></div>`;
+      document.body.appendChild(overlay);
+      setTimeout(()=>{document.body.removeChild(overlay);showPage('menu');showToast('Table '+i+' selected!');},1500);
+    });
+    tablesGrid.appendChild(b);
+  }
+
+  // Build menu
+  menu.forEach(sec=>{
+    const box=document.createElement('div');
+    box.className='section';
+    const h=document.createElement('h2');h.textContent=sec.section;box.appendChild(h);
+    const grid=document.createElement('div');grid.className='grid';
+    sec.items.forEach((n,idx)=>{
+      const p=sec.prices[idx];priceMap[n]=p;
+      const btn=document.createElement('button');
+      btn.className='item-btn';btn.textContent=`${n} - ₹${p}`;
+      btn.addEventListener('click',()=>showQtyPopup(n,true));grid.appendChild(btn);
+    });
+    box.appendChild(grid);menuSections.appendChild(box);
+  });
+
+  function showPage(p){
+    [pageTables,pageMenu,pageCart,pagePayment].forEach(pg=>pg.classList.remove('active'));
+    if(p==='tables')pageTables.classList.add('active');
+    if(p==='menu')pageMenu.classList.add('active');
+    if(p==='cart'){cartTitle.textContent='🛒 Cart for Table '+selectedTable;refreshCart();pageCart.classList.add('active');}
+    if(p==='payment')pagePayment.classList.add('active');
+  }
+
+  function showQtyPopup(item,add){
+    const overlay=document.createElement('div');overlay.className='overlay';
+    const modal=document.createElement('div');modal.className='modal';
+    modal.innerHTML=`<h3>${add?'Enter quantity for':'Enter quantity to delete for'} ${item}</h3>
+      <input type="number" value="1" min="1"/>
+      <div class="modal-actions">
+        <button class="ok-btn">${add?'Add':'Delete'}</button>
+        <button class="cancel-btn">Cancel</button></div>`;
+    overlay.appendChild(modal);document.body.appendChild(overlay);
+    const inp=modal.querySelector('input');
+    modal.querySelector('.ok-btn').addEventListener('click',()=>{
+      const qty=parseInt(inp.value)||0;
+      if(qty<=0){showToast('Enter valid quantity');return;}
+      if(add){cart[item]=(cart[item]||0)+qty;showToast(`${qty} x ${item} added!`);}
+      else{if(!cart[item]){showToast(item+' not in cart');return;}
+        const cur=cart[item];if(qty>cur){showToast('Cannot delete more than '+cur);return;}
+        if(qty===cur)delete cart[item];else cart[item]=cur-qty;showToast(`${qty} removed from ${item}`);}
+      refreshCart();document.body.removeChild(overlay);
+    });
+    modal.querySelector('.cancel-btn').addEventListener('click',()=>document.body.removeChild(overlay));
+  }
+
+  function refreshCart(){
+    cartList.innerHTML='';let total=0;
+    if(Object.keys(cart).length===0){cartList.innerHTML='<div style="padding:20px;color:#444;">Cart is empty</div>';}
+    else{for(const [n,q] of Object.entries(cart)){const sub=(priceMap[n]||0)*q;total+=sub;
+      const row=document.createElement('div');row.className='cart-item';
+      row.innerHTML=`<div style="font-weight:800;">${n} x ${q}</div><div>₹${sub}</div>`;cartList.appendChild(row);}}
+    totalLabel.textContent='Total Bill: ₹'+total;
+  }
+
+  function showToast(m){toast.textContent=m;toast.style.display='block';setTimeout(()=>toast.style.display='none',1500);}
+
+  document.getElementById('enterFs').onclick=()=>{const el=document.documentElement;if(el.requestFullscreen)el.requestFullscreen();showToast('Entered fullscreen');};
+  document.getElementById('menuBack').onclick=()=>showPage('tables');
+  document.getElementById('viewCartBtn').onclick=()=>showPage('cart');
+  document.getElementById('reorderBtn').onclick=()=>showPage('menu');
+
+  document.getElementById('deleteBtn').onclick=()=>{
+    if(Object.keys(cart).length===0){showToast('Cart empty');return;}
+    const o=document.createElement('div');o.className='overlay';
+    const m=document.createElement('div');m.className='modal';
+    m.innerHTML='<h3>Enter item to delete</h3><input id="dlt" type="text" style="text-transform:capitalize"/><div class="modal-actions"><button class="ok-btn">OK</button><button class="cancel-btn">Cancel</button></div>';
+    o.appendChild(m);document.body.appendChild(o);
+    m.querySelector('.ok-btn').onclick=()=>{const item=m.querySelector('#dlt').value.trim();if(!item){showToast('Enter item name');return;}
+      if(!cart[item]){showToast('Item not found');}else{delete cart[item];refreshCart();showToast(item+' deleted');}document.body.removeChild(o);};
+    m.querySelector('.cancel-btn').onclick=()=>document.body.removeChild(o);
+  };
+
+  document.getElementById('paymentBtn').onclick=()=>{
+    if(Object.keys(cart).length===0){showToast('Cart empty!');return;}
+    showPage('payment');
+  };
+
+  document.getElementById('checkItemsBtn').onclick=()=>{
+    const items=Object.entries(cart).map(([n,q])=>`${n} x ${q}`).join('\\n');
+    paymentMsg.textContent = items?('✅ Items Ordered:\\n'+items):'No items found';
+  };
+  document.getElementById('cashCounterBtn').onclick=()=>{paymentMsg.textContent='💵 Pay at the counter.\nThank you for dining!';};
+  document.getElementById('cashMobileBtn').onclick=()=>{paymentMsg.textContent='📱 Pay via Mobile Payment.\nThank you!';};
+})();
+</script>
+</body>
+</html>
