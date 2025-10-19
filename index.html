@@ -43,7 +43,7 @@
     .cart-layout{height:100vh;background:linear-gradient(180deg,#141E30,#243B55);color:white;padding:24px;box-sizing:border-box}
     .cart-title{font-family:Verdana;font-weight:800;font-size:28px;text-align:center}
     .cart-list{background:#f0f0f0;color:#111;padding:10px;border-radius:8px;height:50vh;overflow:auto;font-size:18px}
-    .cart-controls{display:flex;gap:12px;justify-content:center;margin-top:12px}
+    .cart-controls{display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap}
     .btn{padding:10px 18px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
     .reorder{background:#4CAF50;color:white}
     .delete{background:#f44336;color:white}
@@ -84,6 +84,8 @@
       font-weight: 700;
       font-size: 20px;
       text-align: center;
+      padding: 10px;
+      box-sizing: border-box;
     }
     .payment-overlay img {
       max-width: 80%;
@@ -96,253 +98,234 @@
       font-size: 22px;
       color: #FFD700;
     }
+
+    /* =================== MEDIA QUERIES =================== */
+    @media (max-width: 1200px){
+      .container{width:95%;padding:20px;}
+      .title{font-size:36px;}
+      .instructions{font-size:16px;}
+      .table-btn{width:150px;height:60px;font-size:18px;}
+      .item-btn{font-size:14px;height:60px;}
+      .pay-buttons button{width:250px;font-size:16px;}
+      .pay-title{font-size:28px;}
+    }
+
+    @media (max-width: 768px){
+      .table-grid{grid-template-columns:repeat(3,1fr);}
+      .items-grid{grid-template-columns:1fr;}
+      .cart-controls{flex-direction:column;align-items:center;}
+      .cart-list{height:40vh;font-size:16px;}
+      .total{font-size:16px;}
+      .cart-btn{font-size:16px;padding:8px 12px;}
+    }
+
+    @media (max-width: 480px){
+      .title{font-size:28px;}
+      .instructions{font-size:14px;}
+      .table-btn{width:120px;height:50px;font-size:16px;}
+      .item-btn{font-size:12px;height:50px;}
+      .pay-buttons button{width:200px;font-size:14px;}
+      .pay-title{font-size:24px;}
+      .cart-title{font-size:22px;}
+      .cart-list{height:35vh;font-size:14px;}
+      .total{font-size:14px;}
+    }
   </style>
 </head>
 <body>
-  <div class="root">
-    <div class="container" id="app">
-      <!-- Table selection page -->
-      <div id="page-tables">
-        <div class="title">✨ Welcome to Tech Hotel ✨</div>
-        <div class="instructions">📌 Instructions:<br>1. Select your table.<br>2. Select dishes with quantity.<br>3. Modify/delete items before payment.<br>4. Proceed to payment.</div>
-        <div class="table-grid" id="tableGrid"></div>
-      </div>
+<div class="root">
+  <div class="container" id="app">
+    <!-- Table selection page -->
+    <div id="page-tables">
+      <div class="title">✨ Welcome to Tech Hotel ✨</div>
+      <div class="instructions">📌 Instructions:<br>1. Select your table.<br>2. Select dishes with quantity.<br>3. Modify/delete items before payment.<br>4. Proceed to payment.</div>
+      <div class="table-grid" id="tableGrid"></div>
+    </div>
 
-      <!-- Menu page -->
-      <div id="page-menu" class="hidden">
-        <div class="menu-layout">
-          <div class="topbar"><button class="back-btn" id="backToTables">⬅ Back</button></div>
-          <div class="menu-box" id="menuBox"></div>
-          <div class="bottom-right"><button class="cart-btn" id="viewCart">🛒 View Cart</button></div>
-        </div>
+    <!-- Menu page -->
+    <div id="page-menu" class="hidden">
+      <div class="menu-layout">
+        <div class="topbar"><button class="back-btn" id="backToTables">⬅ Back</button></div>
+        <div class="menu-box" id="menuBox"></div>
+        <div class="bottom-right"><button class="cart-btn" id="viewCart">🛒 View Cart</button></div>
       </div>
+    </div>
 
-      <!-- Cart page -->
-      <div id="page-cart" class="hidden">
-        <div class="cart-layout">
-          <div class="cart-title">🛒 Cart for Table <span id="cartTableNum">0</span></div>
-          <div class="cart-list" id="cartList"></div>
-          <div class="total" id="totalLabel">Total Bill: ₹0</div>
-          <div class="cart-controls">
-            <button class="btn reorder" id="reorderBtn">🔄 Reorder</button>
-            <button class="btn delete" id="deleteBtn">🗑 Delete Order</button>
-            <button class="btn payment" id="paymentBtn">💳 Payment</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Payment page -->
-      <div id="page-payment" class="hidden">
-        <div class="payment-layout">
-          <div class="pay-title">💰 Payment Options</div>
-          <div class="pay-buttons">
-            <button class="check" id="checkItemsBtn">✅ Check Items</button>
-            <button class="cash-counter" id="cashCounterBtn">💵 Cash at Counter</button>
-            <button class="cash-mobile" id="cashMobileBtn">📱 Cash via Mobile</button>
-          </div>
-          <div class="pay-msg" id="payMsg"></div>
+    <!-- Cart page -->
+    <div id="page-cart" class="hidden">
+      <div class="cart-layout">
+        <div class="cart-title">🛒 Cart for Table <span id="cartTableNum">0</span></div>
+        <div class="cart-list" id="cartList"></div>
+        <div class="total" id="totalLabel">Total Bill: ₹0</div>
+        <div class="cart-controls">
+          <button class="btn reorder" id="reorderBtn">🔄 Reorder</button>
+          <button class="btn delete" id="deleteBtn">🗑 Delete Order</button>
+          <button class="btn payment" id="paymentBtn">💳 Payment</button>
         </div>
       </div>
     </div>
+
+    <!-- Payment page -->
+    <div id="page-payment" class="hidden">
+      <div class="payment-layout">
+        <div class="pay-title">💰 Payment Options</div>
+        <div class="pay-buttons">
+          <button class="check" id="checkItemsBtn">✅ Check Items</button>
+          <button class="cash-counter" id="cashCounterBtn">💵 Cash at Counter</button>
+          <button class="cash-mobile" id="cashMobileBtn">📱 Cash via Mobile</button>
+        </div>
+        <div class="pay-msg" id="payMsg"></div>
+      </div>
+    </div>
   </div>
+</div>
 
-  <!-- Overlay area for popups -->
-  <div id="overlayRoot" class="hidden"></div>
+<div id="overlayRoot" class="hidden"></div>
 
-  <script>
-    // App state
-    let selectedTable = 0;
-    const cart = new Map();
-    const priceMap = new Map();
+<script>
+  // App state
+  let selectedTable = 0;
+  const cart = new Map();
+  const priceMap = new Map();
 
-    // Elements
-    const pageTables = document.getElementById('page-tables');
-    const pageMenu = document.getElementById('page-menu');
-    const pageCart = document.getElementById('page-cart');
-    const pagePayment = document.getElementById('page-payment');
-    const tableGrid = document.getElementById('tableGrid');
-    const menuBox = document.getElementById('menuBox');
-    const viewCartBtn = document.getElementById('viewCart');
-    const backToTables = document.getElementById('backToTables');
-    const cartList = document.getElementById('cartList');
-    const totalLabel = document.getElementById('totalLabel');
-    const cartTableNum = document.getElementById('cartTableNum');
-    const reorderBtn = document.getElementById('reorderBtn');
-    const deleteBtn = document.getElementById('deleteBtn');
-    const paymentBtn = document.getElementById('paymentBtn');
-    const checkItemsBtn = document.getElementById('checkItemsBtn');
-    const cashCounterBtn = document.getElementById('cashCounterBtn');
-    const cashMobileBtn = document.getElementById('cashMobileBtn');
-    const payMsg = document.getElementById('payMsg');
-    const overlayRoot = document.getElementById('overlayRoot');
+  // Elements
+  const pageTables = document.getElementById('page-tables');
+  const pageMenu = document.getElementById('page-menu');
+  const pageCart = document.getElementById('page-cart');
+  const pagePayment = document.getElementById('page-payment');
+  const tableGrid = document.getElementById('tableGrid');
+  const menuBox = document.getElementById('menuBox');
+  const viewCartBtn = document.getElementById('viewCart');
+  const backToTables = document.getElementById('backToTables');
+  const cartList = document.getElementById('cartList');
+  const totalLabel = document.getElementById('totalLabel');
+  const cartTableNum = document.getElementById('cartTableNum');
+  const reorderBtn = document.getElementById('reorderBtn');
+  const deleteBtn = document.getElementById('deleteBtn');
+  const paymentBtn = document.getElementById('paymentBtn');
+  const checkItemsBtn = document.getElementById('checkItemsBtn');
+  const cashCounterBtn = document.getElementById('cashCounterBtn');
+  const cashMobileBtn = document.getElementById('cashMobileBtn');
+  const payMsg = document.getElementById('payMsg');
+  const overlayRoot = document.getElementById('overlayRoot');
 
-    // Menu data
-    const menuData = [
-      {section: 'Breakfast', items:[ ['Idli',20],['Vada',25],['Pongal',30],['Upma',25],['Dosa',35], ['Masala Dosa',50],['Medu Vada',30],['Rava Upma',30],['Poori',35] ]},
-      {section: 'Lunch', items:[ ['Steamed Rice',30],['Tamarind Rice',35],['Lemon Rice',30],['Curd Rice',30], ['Veg Biryani',60],['Paneer Butter Masala',70],['Dal Tadka',40],['Mix Veg',50] ]},
-      {section: 'Dinner', items:[ ['Dosa',35],['Rava Dosa',40],['Ghee Dosa',50],['Pesarattu',45],['Set Dosa',40], ['Chapati',10],['Paneer Bhurji',60],['Veg Pulao',50] ]},
-      {section: 'Drinks', items:[ ['Lemon Juice',20],['Coconut Water',25],['Buttermilk',15],['Coffee',20],['Tea',10] ]},
-      {section: 'Snacks', items:[ ['Samosa',15],['Vada Pav',20],['Pakora',25],['Spring Roll',35] ]},
-      {section: 'Desserts', items:[ ['Gulab Jamun',15],['Rasgulla',15],['Ice Cream',30],['Halwa',20] ]}
-    ];
+  // Menu data
+  const menuData = [
+    {section: 'Breakfast', items:[ ['Idli',20],['Vada',25],['Pongal',30],['Upma',25],['Dosa',35], ['Masala Dosa',50],['Medu Vada',30],['Rava Upma',30],['Poori',35] ]},
+    {section: 'Lunch', items:[ ['Steamed Rice',30],['Tamarind Rice',35],['Lemon Rice',30],['Curd Rice',30], ['Veg Biryani',60],['Paneer Butter Masala',70],['Dal Tadka',40],['Mix Veg',50] ]},
+    {section: 'Dinner', items:[ ['Dosa',35],['Rava Dosa',40],['Ghee Dosa',50],['Pesarattu',45],['Set Dosa',40], ['Chapati',10],['Paneer Bhurji',60],['Veg Pulao',50] ]},
+    {section: 'Drinks', items:[ ['Lemon Juice',20],['Coconut Water',25],['Buttermilk',15],['Coffee',20],['Tea',10] ]},
+    {section: 'Snacks', items:[ ['Samosa',15],['Vada Pav',20],['Pakora',25],['Spring Roll',35] ]},
+    {section: 'Desserts', items:[ ['Gulab Jamun',15],['Rasgulla',15],['Ice Cream',30],['Halwa',20] ]}
+  ];
+  menuData.forEach(sec => sec.items.forEach(it => priceMap.set(it[0], it[1])));
 
-    menuData.forEach(sec => sec.items.forEach(it => priceMap.set(it[0], it[1])));
+  // Build table buttons
+  for(let i=1;i<=10;i++){
+    const btn = document.createElement('button');
+    btn.className='table-btn';
+    btn.textContent='Table '+i;
+    btn.addEventListener('click',()=>{ selectedTable = i; showMenuPage(); requestFullscreenSafe(); });
+    tableGrid.appendChild(btn);
+  }
 
-    // Build table buttons
-    for(let i=1;i<=10;i++){
-      const btn = document.createElement('button');
-      btn.className='table-btn';
-      btn.textContent='Table '+i;
-      btn.addEventListener('click',()=>{ selectedTable = i; showMenuPage(); requestFullscreenSafe(); });
-      tableGrid.appendChild(btn);
-    }
+  function showPage(page){
+    pageTables.classList.add('hidden');
+    pageMenu.classList.add('hidden');
+    pageCart.classList.add('hidden');
+    pagePayment.classList.add('hidden');
+    page.classList.remove('hidden');
+  }
 
-    function showPage(page){
-      pageTables.classList.add('hidden');
-      pageMenu.classList.add('hidden');
-      pageCart.classList.add('hidden');
-      pagePayment.classList.add('hidden');
-      page.classList.remove('hidden');
-    }
+  function showMenuPage(){ buildMenu(); showPage(pageMenu); }
+  backToTables.addEventListener('click',()=>{ showPage(pageTables); });
 
-    function showMenuPage(){ buildMenu(); showPage(pageMenu); }
-
-    backToTables.addEventListener('click',()=>{ showPage(pageTables); });
-
-    function buildMenu(){
-      menuBox.innerHTML='';
-      menuData.forEach(sec=>{
-        const secEl = document.createElement('div'); secEl.className='section';
-        const h2 = document.createElement('h2'); h2.textContent = sec.section;
-        secEl.appendChild(h2);
-        const grid = document.createElement('div'); grid.className='items-grid';
-        sec.items.forEach(([name,price])=>{
-          const btn = document.createElement('button'); btn.className='item-btn';
-          btn.textContent = `${name} - ₹${price}`;
-          btn.addEventListener('click',()=>showQuantityPopup(name,true));
-          grid.appendChild(btn);
-        });
-        secEl.appendChild(grid);
-        menuBox.appendChild(secEl);
+  function buildMenu(){
+    menuBox.innerHTML='';
+    menuData.forEach(sec=>{
+      const secEl = document.createElement('div'); secEl.className='section';
+      const h2 = document.createElement('h2'); h2.textContent = sec.section;
+      secEl.appendChild(h2);
+      const grid = document.createElement('div'); grid.className='items-grid';
+      sec.items.forEach(([name,price])=>{
+        const btn = document.createElement('button'); btn.className='item-btn';
+        btn.textContent = `${name} - ₹${price}`;
+        btn.addEventListener('click',()=>showQuantityPopup(name,true));
+        grid.appendChild(btn);
       });
-    }
-
-    viewCartBtn.addEventListener('click',()=>{ refreshCartList(); cartTableNum.textContent=selectedTable||0; showPage(pageCart); });
-
-    function refreshCartList(){
-      cartList.innerHTML='';
-      for(const [name,qty] of cart.entries()){
-        const sub=(priceMap.get(name)||0)*qty;
-        const el=document.createElement('div');
-        el.textContent=`${name} x ${qty} = ₹${sub}`;
-        el.style.padding='8px 6px'; el.style.borderBottom='1px solid #ddd';
-        el.dataset.item=name;
-        el.addEventListener('click',()=>{ document.querySelectorAll('#cartList div').forEach(d=>d.style.background=''); el.style.background='#e6e6e6'; });
-        cartList.appendChild(el);
-      }
-      updateTotal();
-    }
-
-    function updateTotal(){ let total=0; for(const [name,qty] of cart.entries()) total+=(priceMap.get(name)||0)*qty; totalLabel.textContent=`Total Bill: ₹${total}`; }
-
-    reorderBtn.addEventListener('click',()=>showMenuPage());
-
-    deleteBtn.addEventListener('click',()=>{
-      const selected=document.querySelector('#cartList div[style*="background"]');
-      if(!selected){ showInternalMsg('Select item to delete'); return; }
-      const item=selected.dataset.item;
-      showQuantityPopup(item,false);
+      secEl.appendChild(grid);
+      menuBox.appendChild(secEl);
     });
+  }
 
-    paymentBtn.addEventListener('click',()=>{ showPage(pagePayment); payMsg.textContent=''; });
+  viewCartBtn.addEventListener('click',()=>{ refreshCartList(); cartTableNum.textContent=selectedTable||0; showPage(pageCart); });
 
-    function showInternalMsg(msg){
-      const overlay=document.createElement('div'); overlay.className='overlay';
-      const popup=document.createElement('div'); popup.className='popup';
-      popup.innerHTML=`<div style="font-weight:800;color:yellow">${msg}</div>`;
-      overlay.appendChild(popup); document.body.appendChild(overlay);
-      setTimeout(()=>document.body.removeChild(overlay),1500);
+  function refreshCartList(){
+    cartList.innerHTML='';
+    for(const [name,qty] of cart.entries()){
+      const sub=(priceMap.get(name)||0)*qty;
+      const el=document.createElement('div');
+      el.textContent=`${name} x ${qty} = ₹${sub}`;
+      el.style.padding='8px 6px'; el.style.borderBottom='1px solid #ddd';
+      el.dataset.item=name;
+      el.addEventListener('click',()=>{ document.querySelectorAll('#cartList div').forEach(d=>d.style.background=''); el.style.background='#e6e6e6'; });
+      cartList.appendChild(el);
     }
+    updateTotal();
+  }
 
-    function showQuantityPopup(itemName,isAdd){
-      overlayRoot.innerHTML=''; overlayRoot.classList.remove('hidden'); overlayRoot.classList.add('overlay');
-      const popup=document.createElement('div'); popup.className='popup';
-      const label=document.createElement('div'); label.style.fontSize='20px'; label.style.marginBottom='10px';
-      label.textContent=(isAdd?`Enter quantity for `:`Enter quantity to delete for `)+itemName;
-      const input=document.createElement('input'); input.type='number'; input.value='1'; input.min='1';
-      const btnBox=document.createElement('div'); btnBox.style.marginTop='12px';
-      const ok=document.createElement('button'); ok.className='ok'; ok.textContent=isAdd? 'Add':'Delete';
-      const cancel=document.createElement('button'); cancel.className='cancel'; cancel.textContent='Cancel';
-      btnBox.appendChild(ok); btnBox.appendChild(cancel);
-      popup.appendChild(label); popup.appendChild(input); popup.appendChild(btnBox);
-      overlayRoot.appendChild(popup);
+  function updateTotal(){ let total=0; for(const [name,qty] of cart.entries()) total+=(priceMap.get(name)||0)*qty; totalLabel.textContent=`Total Bill: ₹${total}`; }
 
-      ok.addEventListener('click',()=>{
-        try{
-          const qty=parseInt(input.value); if(isNaN(qty)||qty<=0) throw 'Invalid';
-          if(isAdd){ cart.set(itemName,(cart.get(itemName)||0)+qty); refreshCartList(); showOverlayMessage(`${qty} x ${itemName} added!`); }
-          else{
-            if(!cart.has(itemName)){ showOverlayMessage(`${itemName} not in cart!`); return; }
-            const cur=cart.get(itemName);
-            if(qty>cur){ showOverlayMessage(`Cannot delete more than ${cur}`); return; }
-            if(qty===cur) cart.delete(itemName); else cart.set(itemName,cur-qty);
-            refreshCartList(); showOverlayMessage(`${qty} removed from ${itemName}`);
-          }
-        }catch(e){ showOverlayMessage('Enter a valid positive number!'); }
-      });
-      cancel.addEventListener('click',()=>{ overlayRoot.innerHTML=''; overlayRoot.classList.add('hidden'); });
-    }
+  reorderBtn.addEventListener('click',()=>showMenuPage());
+  deleteBtn.addEventListener('click',()=>{
+    const selected=document.querySelector('#cartList div[style*="background"]');
+    if(!selected){ showInternalMsg('Select item to delete'); return; }
+    const item=selected.dataset.item;
+    showQuantityPopup(item,false);
+  });
 
-    function showOverlayMessage(msg){
-      overlayRoot.innerHTML=''; overlayRoot.classList.remove('hidden'); overlayRoot.classList.add('overlay');
-      const popup=document.createElement('div'); popup.className='popup';
-      popup.innerHTML=`<div style="font-weight:800;color:yellow">${msg}</div>`;
-      overlayRoot.appendChild(popup);
-      setTimeout(()=>{ overlayRoot.innerHTML=''; overlayRoot.classList.add('hidden'); },1500);
-    }
+  paymentBtn.addEventListener('click',()=>{ showPage(pagePayment); payMsg.textContent=''; });
 
-    checkItemsBtn.addEventListener('click',()=>{ showPage(pageCart); });
-    function computeTotal(){ let total=0; for(const [name,qty] of cart.entries()) total+=(priceMap.get(name)||0)*qty; return total; }
+  function showInternalMsg(msg){
+    const overlay=document.createElement('div'); overlay.className='overlay';
+    const popup=document.createElement('div'); popup.className='popup';
+    popup.innerHTML=`<div style="font-weight:800;color:yellow">${msg}</div>`;
+    overlay.appendChild(popup); document.body.appendChild(overlay);
+    setTimeout(()=>document.body.removeChild(overlay),1500);
+  }
 
-    cashCounterBtn.addEventListener('click',()=>{
-      const total=computeTotal();
-      payMsg.innerHTML=`💳 Table ${selectedTable}<br>Thank you for visiting Tech Hotel!<br>Your bill is ₹${total}.<br>Please take it and give it to the counter.<br>Printing your bill now...`;
-      cart.clear(); setTimeout(()=>{ showPage(pageTables); },3000);
+  function showQuantityPopup(itemName,isAdd){
+    overlayRoot.innerHTML=''; overlayRoot.classList.remove('hidden'); overlayRoot.classList.add('overlay');
+    const popup=document.createElement('div'); popup.className='popup';
+    const label=document.createElement('div'); label.style.fontSize='20px'; label.style.marginBottom='10px';
+    label.textContent=(isAdd?`Enter quantity for `:`Enter quantity to delete for `)+itemName;
+    const input=document.createElement('input'); input.type='number'; input.value='1'; input.min='1';
+    const btnBox=document.createElement('div'); btnBox.style.marginTop='12px';
+    const ok=document.createElement('button'); ok.className='ok'; ok.textContent='OK';
+    const cancel=document.createElement('button'); cancel.className='cancel'; cancel.textContent='Cancel';
+    ok.addEventListener('click',()=>{
+      const val=parseInt(input.value)||1;
+      if(isAdd){ cart.set(itemName,(cart.get(itemName)||0)+val); }
+      else{ const prev=cart.get(itemName)||0; cart.set(itemName,Math.max(prev-val,0)); if(cart.get(itemName)===0) cart.delete(itemName);}
+      overlayRoot.classList.add('hidden'); refreshCartList();
     });
+    cancel.addEventListener('click',()=>{ overlayRoot.classList.add('hidden'); });
+    btnBox.appendChild(ok); btnBox.appendChild(cancel); popup.appendChild(label); popup.appendChild(input); popup.appendChild(btnBox);
+    overlayRoot.appendChild(popup);
+  }
 
-    // 💥 Mobile payment overlay with 15 sec auto-hide
-    cashMobileBtn.addEventListener('click',()=>{
-      const total=computeTotal();
-      cart.clear();
+  checkItemsBtn.addEventListener('click',()=>{ let list=''; cart.forEach((qty,name)=>{ list+=`${name} x ${qty}\n`; }); payMsg.textContent=list||'No items in cart'; });
+  cashCounterBtn.addEventListener('click',()=>{ payMsg.textContent='Pay cash at counter. Thank you!'; setTimeout(()=>{ showPage(pageTables); cart.clear(); },1500); });
+  cashMobileBtn.addEventListener('click',()=>{
+    const overlay=document.createElement('div'); overlay.className='payment-overlay';
+    const img=document.createElement('img'); img.src='cash.jpeg';
+    const msg=document.createElement('div'); msg.className='msg'; msg.textContent='Scan QR code to pay via UPI';
+    overlay.appendChild(img); overlay.appendChild(msg); document.body.appendChild(overlay);
+    setTimeout(()=>document.body.removeChild(overlay),15000);
+    setTimeout(()=>{ showPage(pageTables); cart.clear(); },15000);
+  });
 
-      const overlay = document.createElement('div');
-      overlay.className='payment-overlay';
-
-      const img = document.createElement('img');
-      img.src='cash.jpeg';
-      overlay.appendChild(img);
-
-      const msg = document.createElement('div');
-      msg.className='msg';
-      msg.innerHTML = `📱 Table ${selectedTable}<br>Amount: ₹${total}<br>Scan QR or pay via mobile`;
-      overlay.appendChild(msg);
-
-      document.body.appendChild(overlay);
-
-      setTimeout(()=>{
-        document.body.removeChild(overlay);
-        showPage(pageTables);
-      },15000); // 15 seconds
-    });
-
-    function requestFullscreenSafe(){
-      const el=document.documentElement;
-      if(el.requestFullscreen) el.requestFullscreen().catch(()=>{});
-      else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-    }
-    window.addEventListener('keydown',(ev)=>{ if(ev.code==='Escape') ev.preventDefault(); });
-    window.addEventListener('load',()=>{ try{ requestFullscreenSafe(); }catch(e){} });
-    showPage(pageTables);
-  </script>
+  function requestFullscreenSafe(){ if(document.documentElement.requestFullscreen){ document.documentElement.requestFullscreen().catch(()=>{}); } }
+</script>
 </body>
 </html>
