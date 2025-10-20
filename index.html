@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>✨ Tech Hotel Management ✨</title>
   <style>
-    :root{
+    :root {
       --primary:#5b86e5;
       --accent:#36d1dc;
       --bg1:#FFDEE9;
@@ -14,92 +14,161 @@
       --muted:#666;
       --dark:#141E30;
     }
-    html,body{height:100%;margin:0;font-family:Arial, Helvetica, sans-serif;overflow:hidden;}
-    .root{height:100%;display:flex;align-items:flex-start;justify-content:center;background:linear-gradient(135deg,var(--bg1),var(--bg2));}
-    .container{width:1200px;padding:30px;box-sizing:border-box}
 
-    /* Table selection */
-    .title{font-family:Verdana; font-weight:800; font-size:48px; color:darkblue; text-align:center}
-    .instructions{font-weight:700; font-size:18px; color:#2f4f4f; text-align:center;margin:12px 0}
-    .table-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;justify-items:center;margin-top:20px}
-    .table-btn{width:180px;height:70px;border:none;border-radius:20px;background:linear-gradient(90deg,#ff9966,#ff5e62);color:white;font-weight:800;font-size:20px;cursor:pointer;transition:0.2s}
-    .table-btn:hover{transform: scale(1.05);box-shadow:0 6px 12px rgba(0,0,0,0.25)}
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: "Poppins", Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .root {
+      height: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+    }
+
+    .container {
+      width: 1200px;
+      padding: 30px;
+      box-sizing: border-box;
+    }
+
+    /* Title */
+    .title {
+      font-weight: 800;
+      font-size: 48px;
+      color: darkblue;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .instructions {
+      font-weight: 700;
+      font-size: 18px;
+      color: #2f4f4f;
+      text-align: center;
+      margin: 12px 0;
+    }
+
+    /* Table */
+    .table-grid {
+      display: grid;
+      grid-template-columns: repeat(5,1fr);
+      gap: 20px;
+      justify-items: center;
+      margin-top: 20px;
+    }
+
+    .table-btn {
+      width: 180px;
+      height: 70px;
+      border: none;
+      border-radius: 20px;
+      background: linear-gradient(90deg,#ff9966,#ff5e62);
+      color: white;
+      font-weight: 800;
+      font-size: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .table-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    }
 
     /* Menu */
-    .menu-layout{height:calc(100vh - 60px);display:flex;flex-direction:column}
-    .topbar{display:flex;align-items:center;justify-content:flex-start}
-    .back-btn{border:none;background:#ff5e62;color:white;padding:8px 14px;border-radius:10px;font-weight:700;cursor:pointer}
-    .menu-box{padding:16px;overflow:auto;flex:1}
-    .section{margin:24px 0;background:linear-gradient(135deg,#fbc2eb,#a6c1ee);padding:16px;border-radius:12px}
-    .section h2{font-family:Verdana;color:darkblue;margin:0 0 10px 0}
-    .items-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-    .item-btn{display:flex;align-items:center;justify-content:center;height:70px;border:none;border-radius:15px;background:linear-gradient(90deg,var(--accent),var(--primary));color:white;font-weight:700;font-size:16px;cursor:pointer;box-shadow:0 4px 8px rgba(0,0,0,0.15);transition:0.2s}
-    .item-btn:hover{transform:translateY(-5px);box-shadow:0 8px 15px rgba(0,0,0,0.3)}
+    .menu-layout {height: calc(100vh - 60px);display:flex;flex-direction:column}
+    .topbar {display:flex;align-items:center;justify-content:flex-start}
+    .back-btn {border:none;background:#ff5e62;color:white;padding:8px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+    .menu-box {padding:16px;overflow:auto;flex:1}
+    .section {margin:24px 0;background:linear-gradient(135deg,#fbc2eb,#a6c1ee);padding:16px;border-radius:12px}
+    .section h2 {color:darkblue;margin:0 0 10px 0}
+    .items-grid {display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    .item-btn {
+      display:flex;align-items:center;justify-content:center;height:70px;
+      border:none;border-radius:15px;
+      background:linear-gradient(90deg,var(--accent),var(--primary));
+      color:white;font-weight:700;font-size:16px;cursor:pointer;
+      box-shadow:0 4px 8px rgba(0,0,0,0.15);transition:0.3s
+    }
+    .item-btn:hover {transform:translateY(-5px);box-shadow:0 8px 15px rgba(0,0,0,0.3)}
 
-    .bottom-right{display:flex;justify-content:flex-end;padding:12px}
-    .cart-btn{background:#f8b400;border:none;padding:10px 18px;border-radius:15px;font-weight:800;font-size:18px;cursor:pointer}
+    .bottom-right {display:flex;justify-content:flex-end;padding:12px}
+    .cart-btn {background:#f8b400;border:none;padding:10px 18px;border-radius:15px;font-weight:800;font-size:18px;cursor:pointer}
 
     /* Cart */
-    .cart-layout{height:100vh;background:linear-gradient(180deg,#141E30,#243B55);color:white;padding:24px;box-sizing:border-box}
-    .cart-title{font-family:Verdana;font-weight:800;font-size:28px;text-align:center}
-    .cart-list{background:#f0f0f0;color:#111;padding:10px;border-radius:8px;height:50vh;overflow:auto;font-size:18px}
-    .cart-controls{display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap}
-    .btn{padding:10px 18px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
-    .reorder{background:#4CAF50;color:white}
-    .delete{background:#f44336;color:white}
-    .payment{background:#2196F3;color:white}
-    .total{font-weight:800;margin-top:8px;color:lightyellow}
+    .cart-layout {
+      height: 100vh;
+      background: linear-gradient(180deg, #141E30, #243B55);
+      color: white;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+
+    .cart-title {font-weight:800;font-size:28px;text-align:center;margin-bottom:10px;}
+    .cart-list {
+      background:#f0f0f0;color:#111;padding:10px;border-radius:8px;
+      height:50vh;overflow:auto;font-size:18px;
+    }
+    .cart-controls {display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+    .btn {padding:10px 18px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
+    .reorder {background:#4CAF50;color:white}
+    .delete {background:#f44336;color:white}
+    .payment {background:#2196F3;color:white}
+    .total {font-weight:800;margin-top:8px;color:lightyellow;text-align:center}
 
     /* Payment */
-    .payment-layout{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:40px;background:linear-gradient(180deg,#f12711,#f5af19)}
-    .pay-title{font-size:36px;font-weight:800;color:white;margin-bottom:12px}
-    .pay-buttons{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
-    .pay-buttons button{width:320px;padding:12px;border-radius:15px;border:none;font-weight:800;font-size:18px;cursor:pointer}
-    .check{background:#4CAF50;color:white}
-    .cash-counter{background:#2196F3;color:white}
-    .cash-mobile{background:#FF5722;color:white}
-    .pay-msg{font-weight:700;color:white;font-size:20px;text-align:center;max-width:700px}
+    .payment-layout {
+      height:100vh;display:flex;flex-direction:column;align-items:center;
+      justify-content:flex-start;padding:40px;
+      background:linear-gradient(180deg,#f12711,#f5af19);
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {from{opacity:0}to{opacity:1}}
+    .fade-out {animation: fadeOut 1s forwards;}
+    @keyframes fadeOut {from{opacity:1;}to{opacity:0;}}
+
+    .pay-title {font-size:36px;font-weight:800;color:white;margin-bottom:20px;text-shadow:0 0 10px rgba(0,0,0,0.3);}
+    .pay-buttons {display:flex;flex-direction:column;gap:15px;margin-bottom:20px}
+    .pay-buttons button {
+      width:320px;padding:14px;border-radius:15px;border:none;
+      font-weight:800;font-size:18px;cursor:pointer;
+      box-shadow:0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+    .pay-buttons button:hover {transform: scale(1.05);}
+    .check {background:#4CAF50;color:white}
+    .cash-counter {background:#2196F3;color:white}
+    .cash-mobile {background:#FF5722;color:white}
+    .pay-msg {font-weight:700;color:white;font-size:22px;text-align:center;max-width:700px;}
 
     /* Overlay / popup */
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;z-index:1000}
-    .popup{background:rgba(0,0,0,0.85);padding:26px;border-radius:18px;color:white;min-width:320px;text-align:center}
-    .popup input{font-size:20px;padding:8px 12px;width:120px;text-align:center;border-radius:6px;border:none}
-    .popup .ok{background:#4CAF50;color:white;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;margin-right:8px}
-    .popup .cancel{background:#f44336;color:white;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
-
-    /* small helpers */
-    .hidden{display:none}
+    .overlay {position:fixed;inset:0;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;z-index:1000}
+    .popup {background:rgba(0,0,0,0.85);padding:26px;border-radius:18px;color:white;min-width:320px;text-align:center}
+    .popup input {font-size:20px;padding:8px 12px;width:120px;text-align:center;border-radius:6px;border:none}
+    .popup .ok {background:#4CAF50;color:white;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;margin-right:8px}
+    .popup .cancel {background:#f44336;color:white;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
+    .hidden {display:none}
 
     /* Mobile payment overlay */
     .payment-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      flex-direction: column;
-      color: white;
-      font-weight: 700;
-      font-size: 20px;
-      text-align: center;
-      padding: 10px;
-      box-sizing: border-box;
+      position: fixed;inset: 0;background: rgba(0,0,0,0.9);
+      display: flex;align-items: center;justify-content: center;
+      z-index: 2000;flex-direction: column;color: white;font-weight: 700;
+      font-size: 20px;text-align: center;padding: 10px;box-sizing: border-box;
+      animation: fadeIn 0.5s ease;
     }
     .payment-overlay img {
-      max-width: 80%;
-      max-height: 70%;
-      border-radius: 20px;
+      max-width: 85%;max-height: 70%;border-radius: 20px;
       box-shadow: 0 8px 20px rgba(255,255,255,0.5);
       margin-bottom: 20px;
     }
-    .payment-overlay .msg {
-      font-size: 22px;
-      color: #FFD700;
-    }
+    .payment-overlay .msg {font-size: 22px;color: #FFD700;}
 
-    /* =================== MEDIA QUERIES =================== */
+    /* Responsive Design */
     @media (max-width: 1200px){
       .container{width:95%;padding:20px;}
       .title{font-size:36px;}
@@ -109,7 +178,6 @@
       .pay-buttons button{width:250px;font-size:16px;}
       .pay-title{font-size:28px;}
     }
-
     @media (max-width: 768px){
       .table-grid{grid-template-columns:repeat(3,1fr);}
       .items-grid{grid-template-columns:1fr;}
@@ -118,7 +186,6 @@
       .total{font-size:16px;}
       .cart-btn{font-size:16px;padding:8px 12px;}
     }
-
     @media (max-width: 480px){
       .title{font-size:28px;}
       .instructions{font-size:14px;}
@@ -135,14 +202,12 @@
 <body>
 <div class="root">
   <div class="container" id="app">
-    <!-- Table selection page -->
     <div id="page-tables">
       <div class="title">✨ Welcome to Tech Hotel ✨</div>
       <div class="instructions">📌 Instructions:<br>1. Select your table.<br>2. Select dishes with quantity.<br>3. Modify/delete items before payment.<br>4. Proceed to payment.</div>
       <div class="table-grid" id="tableGrid"></div>
     </div>
 
-    <!-- Menu page -->
     <div id="page-menu" class="hidden">
       <div class="menu-layout">
         <div class="topbar"><button class="back-btn" id="backToTables">⬅ Back</button></div>
@@ -151,7 +216,6 @@
       </div>
     </div>
 
-    <!-- Cart page -->
     <div id="page-cart" class="hidden">
       <div class="cart-layout">
         <div class="cart-title">🛒 Cart for Table <span id="cartTableNum">0</span></div>
@@ -165,9 +229,8 @@
       </div>
     </div>
 
-    <!-- Payment page -->
     <div id="page-payment" class="hidden">
-      <div class="payment-layout">
+      <div class="payment-layout" id="paymentLayout">
         <div class="pay-title">💰 Payment Options</div>
         <div class="pay-buttons">
           <button class="check" id="checkItemsBtn">✅ Check Items</button>
@@ -183,149 +246,179 @@
 <div id="overlayRoot" class="hidden"></div>
 
 <script>
-  // App state
-  let selectedTable = 0;
-  const cart = new Map();
-  const priceMap = new Map();
+let selectedTable = 0;
+const cart = new Map();
+const priceMap = new Map();
 
-  // Elements
-  const pageTables = document.getElementById('page-tables');
-  const pageMenu = document.getElementById('page-menu');
-  const pageCart = document.getElementById('page-cart');
-  const pagePayment = document.getElementById('page-payment');
-  const tableGrid = document.getElementById('tableGrid');
-  const menuBox = document.getElementById('menuBox');
-  const viewCartBtn = document.getElementById('viewCart');
-  const backToTables = document.getElementById('backToTables');
-  const cartList = document.getElementById('cartList');
-  const totalLabel = document.getElementById('totalLabel');
-  const cartTableNum = document.getElementById('cartTableNum');
-  const reorderBtn = document.getElementById('reorderBtn');
-  const deleteBtn = document.getElementById('deleteBtn');
-  const paymentBtn = document.getElementById('paymentBtn');
-  const checkItemsBtn = document.getElementById('checkItemsBtn');
-  const cashCounterBtn = document.getElementById('cashCounterBtn');
-  const cashMobileBtn = document.getElementById('cashMobileBtn');
-  const payMsg = document.getElementById('payMsg');
-  const overlayRoot = document.getElementById('overlayRoot');
+// Elements
+const pageTables = document.getElementById('page-tables');
+const pageMenu = document.getElementById('page-menu');
+const pageCart = document.getElementById('page-cart');
+const pagePayment = document.getElementById('page-payment');
+const paymentLayout = document.getElementById('paymentLayout');
+const tableGrid = document.getElementById('tableGrid');
+const menuBox = document.getElementById('menuBox');
+const viewCartBtn = document.getElementById('viewCart');
+const backToTables = document.getElementById('backToTables');
+const cartList = document.getElementById('cartList');
+const totalLabel = document.getElementById('totalLabel');
+const cartTableNum = document.getElementById('cartTableNum');
+const reorderBtn = document.getElementById('reorderBtn');
+const deleteBtn = document.getElementById('deleteBtn');
+const paymentBtn = document.getElementById('paymentBtn');
+const checkItemsBtn = document.getElementById('checkItemsBtn');
+const cashCounterBtn = document.getElementById('cashCounterBtn');
+const cashMobileBtn = document.getElementById('cashMobileBtn');
+const payMsg = document.getElementById('payMsg');
+const overlayRoot = document.getElementById('overlayRoot');
 
-  // Menu data
-  const menuData = [
-    {section: 'Breakfast', items:[ ['Idli',20],['Vada',25],['Pongal',30],['Upma',25],['Dosa',35], ['Masala Dosa',50],['Medu Vada',30],['Rava Upma',30],['Poori',35] ]},
-    {section: 'Lunch', items:[ ['Steamed Rice',30],['Tamarind Rice',35],['Lemon Rice',30],['Curd Rice',30], ['Veg Biryani',60],['Paneer Butter Masala',70],['Dal Tadka',40],['Mix Veg',50] ]},
-    {section: 'Dinner', items:[ ['Dosa',35],['Rava Dosa',40],['Ghee Dosa',50],['Pesarattu',45],['Set Dosa',40], ['Chapati',10],['Paneer Bhurji',60],['Veg Pulao',50] ]},
-    {section: 'Drinks', items:[ ['Lemon Juice',20],['Coconut Water',25],['Buttermilk',15],['Coffee',20],['Tea',10] ]},
-    {section: 'Snacks', items:[ ['Samosa',15],['Vada Pav',20],['Pakora',25],['Spring Roll',35] ]},
-    {section: 'Desserts', items:[ ['Gulab Jamun',15],['Rasgulla',15],['Ice Cream',30],['Halwa',20] ]}
-  ];
-  menuData.forEach(sec => sec.items.forEach(it => priceMap.set(it[0], it[1])));
+// Menu
+const menuData = [
+  {section:'Breakfast',items:[['Idli',20],['Vada',25],['Pongal',30],['Upma',25],['Dosa',35],['Masala Dosa',50]]},
+  {section:'Lunch',items:[['Steamed Rice',30],['Lemon Rice',30],['Veg Biryani',60],['Paneer Butter Masala',70]]},
+  {section:'Dinner',items:[['Chapati',10],['Paneer Bhurji',60],['Veg Pulao',50]]},
+  {section:'Drinks',items:[['Lemon Juice',20],['Coffee',20],['Tea',10]]}
+];
+menuData.forEach(sec => sec.items.forEach(it => priceMap.set(it[0], it[1])));
 
-  // Build table buttons
-  for(let i=1;i<=10;i++){
-    const btn = document.createElement('button');
-    btn.className='table-btn';
-    btn.textContent='Table '+i;
-    btn.addEventListener('click',()=>{ selectedTable = i; showMenuPage(); requestFullscreenSafe(); });
-    tableGrid.appendChild(btn);
+// Build tables
+for(let i=1;i<=10;i++){
+  const btn=document.createElement('button');
+  btn.className='table-btn';
+  btn.textContent='Table '+i;
+  btn.addEventListener('click',()=>{selectedTable=i;showMenuPage();requestFullscreenSafe();});
+  tableGrid.appendChild(btn);
+}
+
+function showPage(p){
+  [pageTables,pageMenu,pageCart,pagePayment].forEach(pg=>pg.classList.add('hidden'));
+  p.classList.remove('hidden');
+}
+
+function showMenuPage(){buildMenu();showPage(pageMenu);}
+backToTables.addEventListener('click',()=>showPage(pageTables));
+
+function buildMenu(){
+  menuBox.innerHTML='';
+  menuData.forEach(sec=>{
+    const s=document.createElement('div');s.className='section';
+    const h=document.createElement('h2');h.textContent=sec.section;s.appendChild(h);
+    const g=document.createElement('div');g.className='items-grid';
+    sec.items.forEach(([n,p])=>{
+      const b=document.createElement('button');b.className='item-btn';
+      b.textContent=`${n} - ₹${p}`;b.onclick=()=>showQuantityPopup(n,true);g.appendChild(b);
+    });s.appendChild(g);menuBox.appendChild(s);
+  });
+}
+
+viewCartBtn.onclick=()=>{refreshCartList();cartTableNum.textContent=selectedTable;showPage(pageCart);};
+
+function refreshCartList(){
+  cartList.innerHTML='';
+  for(const [n,q] of cart.entries()){
+    const sub=(priceMap.get(n)||0)*q;
+    const el=document.createElement('div');
+    el.textContent=`${n} x ${q} = ₹${sub}`;
+    el.style.padding='8px';el.style.borderBottom='1px solid #ccc';el.dataset.item=n;
+    el.onclick=()=>{document.querySelectorAll('#cartList div').forEach(d=>d.style.background='');el.style.background='#ddd';};
+    cartList.appendChild(el);
   }
+  updateTotal();
+}
 
-  function showPage(page){
-    pageTables.classList.add('hidden');
-    pageMenu.classList.add('hidden');
-    pageCart.classList.add('hidden');
-    pagePayment.classList.add('hidden');
-    page.classList.remove('hidden');
-  }
+function updateTotal(){
+  let t=0;for(const [n,q]of cart.entries())t+=(priceMap.get(n)||0)*q;
+  totalLabel.textContent=`Total Bill: ₹${t}`;return t;
+}
 
-  function showMenuPage(){ buildMenu(); showPage(pageMenu); }
-  backToTables.addEventListener('click',()=>{ showPage(pageTables); });
+reorderBtn.onclick=()=>showMenuPage();
+deleteBtn.onclick=()=>{
+  const s=document.querySelector('#cartList div[style*="background"]');
+  if(!s)return showInternalMsg('Select item to delete');
+  showQuantityPopup(s.dataset.item,false);
+};
+paymentBtn.onclick=()=>{showPage(pagePayment);payMsg.textContent='';};
 
-  function buildMenu(){
-    menuBox.innerHTML='';
-    menuData.forEach(sec=>{
-      const secEl = document.createElement('div'); secEl.className='section';
-      const h2 = document.createElement('h2'); h2.textContent = sec.section;
-      secEl.appendChild(h2);
-      const grid = document.createElement('div'); grid.className='items-grid';
-      sec.items.forEach(([name,price])=>{
-        const btn = document.createElement('button'); btn.className='item-btn';
-        btn.textContent = `${name} - ₹${price}`;
-        btn.addEventListener('click',()=>showQuantityPopup(name,true));
-        grid.appendChild(btn);
-      });
-      secEl.appendChild(grid);
-      menuBox.appendChild(secEl);
-    });
-  }
+function showInternalMsg(m){
+  const o=document.createElement('div');o.className='overlay';
+  const p=document.createElement('div');p.className='popup';
+  p.innerHTML=`<div style="color:yellow">${m}</div>`;
+  o.appendChild(p);document.body.appendChild(o);setTimeout(()=>o.remove(),1500);
+}
 
-  viewCartBtn.addEventListener('click',()=>{ refreshCartList(); cartTableNum.textContent=selectedTable||0; showPage(pageCart); });
-
-  function refreshCartList(){
-    cartList.innerHTML='';
-    for(const [name,qty] of cart.entries()){
-      const sub=(priceMap.get(name)||0)*qty;
-      const el=document.createElement('div');
-      el.textContent=`${name} x ${qty} = ₹${sub}`;
-      el.style.padding='8px 6px'; el.style.borderBottom='1px solid #ddd';
-      el.dataset.item=name;
-      el.addEventListener('click',()=>{ document.querySelectorAll('#cartList div').forEach(d=>d.style.background=''); el.style.background='#e6e6e6'; });
-      cartList.appendChild(el);
+function showQuantityPopup(n,add){
+  overlayRoot.innerHTML='';overlayRoot.classList.remove('hidden');overlayRoot.classList.add('overlay');
+  const p=document.createElement('div');p.className='popup';
+  const l=document.createElement('div');l.style.marginBottom='10px';
+  l.textContent=(add?'Enter quantity for ':'Enter quantity to delete for ')+n;
+  const i=document.createElement('input');i.type='number';i.value='1';i.min='1';
+  const box=document.createElement('div');box.style.marginTop='12px';
+  const ok=document.createElement('button');ok.className='ok';ok.textContent='OK';
+  const cancel=document.createElement('button');cancel.className='cancel';cancel.textContent='Cancel';
+  ok.onclick=()=>{
+    const qty=parseInt(i.value);
+    if(isNaN(qty)||qty<=0)return;
+    if(add){
+      cart.set(n,(cart.get(n)||0)+qty);
+    }else{
+      const cur=cart.get(n)||0;
+      const newQ=cur-qty;
+      if(newQ>0)cart.set(n,newQ);
+      else cart.delete(n);
     }
-    updateTotal();
-  }
+    overlayRoot.classList.add('hidden');
+    overlayRoot.innerHTML='';
+    refreshCartList();
+  };
+  cancel.onclick=()=>{overlayRoot.classList.add('hidden');overlayRoot.innerHTML='';};
+  box.appendChild(ok);box.appendChild(cancel);
+  p.appendChild(l);p.appendChild(i);p.appendChild(box);
+  overlayRoot.appendChild(p);
+}
 
-  function updateTotal(){ let total=0; for(const [name,qty] of cart.entries()) total+=(priceMap.get(name)||0)*qty; totalLabel.textContent=`Total Bill: ₹${total}`; }
+checkItemsBtn.onclick=()=>{
+  const total=updateTotal();
+  payMsg.innerHTML=`✅ Items Checked!<br>Your total bill is <b>₹${total}</b>.<br>Please proceed to payment.`;
+};
 
-  reorderBtn.addEventListener('click',()=>showMenuPage());
-  deleteBtn.addEventListener('click',()=>{
-    const selected=document.querySelector('#cartList div[style*="background"]');
-    if(!selected){ showInternalMsg('Select item to delete'); return; }
-    const item=selected.dataset.item;
-    showQuantityPopup(item,false);
-  });
+cashCounterBtn.onclick=()=>{
+  const total=updateTotal();
+  payMsg.innerHTML=`💵 Please pay <b>₹${total}</b> at the counter.<br>Thank you for dining with us! 😊`;
 
-  paymentBtn.addEventListener('click',()=>{ showPage(pagePayment); payMsg.textContent=''; });
+  // Auto-return after 15s
+  setTimeout(()=>{
+    cart.clear();
+    pagePayment.classList.add('fade-out');
+    setTimeout(()=>{pagePayment.classList.remove('fade-out'); showPage(pageTables);},1000);
+  },15000);
+};
 
-  function showInternalMsg(msg){
-    const overlay=document.createElement('div'); overlay.className='overlay';
-    const popup=document.createElement('div'); popup.className='popup';
-    popup.innerHTML=`<div style="font-weight:800;color:yellow">${msg}</div>`;
-    overlay.appendChild(popup); document.body.appendChild(overlay);
-    setTimeout(()=>document.body.removeChild(overlay),1500);
-  }
+cashMobileBtn.onclick=()=>{
+  const total=updateTotal();
+  const overlay=document.createElement('div');
+  overlay.className='payment-overlay';
+  overlay.innerHTML=`
+    <img src="cash.jpeg" alt="QR Code for Payment" />
+    <div class="msg">📱 Scan and Pay ₹${total}<br>Thank you! 🙏</div>
+  `;
+  overlay.onclick=()=>overlay.remove();
+  document.body.appendChild(overlay);
 
-  function showQuantityPopup(itemName,isAdd){
-    overlayRoot.innerHTML=''; overlayRoot.classList.remove('hidden'); overlayRoot.classList.add('overlay');
-    const popup=document.createElement('div'); popup.className='popup';
-    const label=document.createElement('div'); label.style.fontSize='20px'; label.style.marginBottom='10px';
-    label.textContent=(isAdd?`Enter quantity for `:`Enter quantity to delete for `)+itemName;
-    const input=document.createElement('input'); input.type='number'; input.value='1'; input.min='1';
-    const btnBox=document.createElement('div'); btnBox.style.marginTop='12px';
-    const ok=document.createElement('button'); ok.className='ok'; ok.textContent='OK';
-    const cancel=document.createElement('button'); cancel.className='cancel'; cancel.textContent='Cancel';
-    ok.addEventListener('click',()=>{
-      const val=parseInt(input.value)||1;
-      if(isAdd){ cart.set(itemName,(cart.get(itemName)||0)+val); }
-      else{ const prev=cart.get(itemName)||0; cart.set(itemName,Math.max(prev-val,0)); if(cart.get(itemName)===0) cart.delete(itemName);}
-      overlayRoot.classList.add('hidden'); refreshCartList();
-    });
-    cancel.addEventListener('click',()=>{ overlayRoot.classList.add('hidden'); });
-    btnBox.appendChild(ok); btnBox.appendChild(cancel); popup.appendChild(label); popup.appendChild(input); popup.appendChild(btnBox);
-    overlayRoot.appendChild(popup);
-  }
+  // Auto-return after 15s
+  setTimeout(()=>{
+    cart.clear();
+    overlay.remove();
+    pagePayment.classList.add('fade-out');
+    setTimeout(()=>{pagePayment.classList.remove('fade-out'); showPage(pageTables);},1000);
+  },15000);
+};
 
-  checkItemsBtn.addEventListener('click',()=>{ let list=''; cart.forEach((qty,name)=>{ list+=`${name} x ${qty}\n`; }); payMsg.textContent=list||'No items in cart'; });
-  cashCounterBtn.addEventListener('click',()=>{ payMsg.textContent='Pay cash at counter. Thank you!'; setTimeout(()=>{ showPage(pageTables); cart.clear(); },1500); });
-  cashMobileBtn.addEventListener('click',()=>{
-    const overlay=document.createElement('div'); overlay.className='payment-overlay';
-    const img=document.createElement('img'); img.src='cash.jpeg';
-    const msg=document.createElement('div'); msg.className='msg'; msg.textContent='Scan QR code to pay via UPI';
-    overlay.appendChild(img); overlay.appendChild(msg); document.body.appendChild(overlay);
-    setTimeout(()=>document.body.removeChild(overlay),15000);
-    setTimeout(()=>{ showPage(pageTables); cart.clear(); },15000);
-  });
-
-  function requestFullscreenSafe(){ if(document.documentElement.requestFullscreen){ document.documentElement.requestFullscreen().catch(()=>{}); } }
+function requestFullscreenSafe(){
+  const el=document.documentElement;
+  if(el.requestFullscreen){el.requestFullscreen();}
+  else if(el.webkitRequestFullscreen){el.webkitRequestFullscreen();}
+  else if(el.msRequestFullscreen){el.msRequestFullscreen();}
+}
 </script>
 </body>
 </html>
