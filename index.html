@@ -1,424 +1,200 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>✨ Tech Hotel Management ✨</title>
-  <style>
-    :root {
-      --primary:#5b86e5;
-      --accent:#36d1dc;
-      --bg1:#FFDEE9;
-      --bg2:#B5FFFC;
-      --card:#ffffffcc;
-      --muted:#666;
-      --dark:#141E30;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>✨ Tech Hotel Management ✨</title>
+<style>
+:root{
+  --primary:#5b86e5;
+  --accent:#36d1dc;
+  --bg1:#FFDEE9;
+  --bg2:#B5FFFC;
+  --card:#ffffffcc;
+  --muted:#666;
+  --dark:#141E30;
+}
+html,body{margin:0;padding:0;height:100%;font-family:Poppins,Arial,sans-serif;overflow-x:hidden;}
+.root{min-height:100%;display:flex;align-items:flex-start;justify-content:center;background:linear-gradient(135deg,var(--bg1),var(--bg2));padding-bottom:40px;}
+.container{width:95%;max-width:1200px;padding:20px;box-sizing:border-box;transition:all 0.5s ease;}
 
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: "Poppins", Arial, sans-serif;
-      overflow: hidden;
-    }
+/* Fade/Slide Animations */
+.page{opacity:0;transform:translateX(100%);position:absolute;top:0;left:0;width:100%;transition:all 0.5s ease;}
+.page.active{opacity:1;transform:translateX(0);position:relative;}
 
-    .root {
-      height: 100%;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--bg1), var(--bg2));
-    }
+/* Title */
+.title{font-weight:800;font-size:48px;color:darkblue;text-align:center;text-shadow:2px 2px 4px rgba(0,0,0,0.3);}
+.instructions{font-weight:700;font-size:18px;color:#2f4f4f;text-align:center;margin:12px 0;}
 
-    .container {
-      width: 1200px;
-      padding: 30px;
-      box-sizing: border-box;
-    }
+/* Table Grid */
+.table-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;justify-items:center;margin-top:20px;}
+.table-btn{width:180px;height:70px;border:none;border-radius:20px;background:linear-gradient(90deg,#ff9966,#ff5e62);color:white;font-weight:800;font-size:20px;cursor:pointer;transition:0.3s;}
+.table-btn:hover{transform:scale(1.08);box-shadow:0 6px 12px rgba(0,0,0,0.25);}
 
-    /* Title */
-    .title {
-      font-weight: 800;
-      font-size: 48px;
-      color: darkblue;
-      text-align: center;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
+/* Menu */
+.menu-layout{height:calc(100vh - 60px);display:flex;flex-direction:column;}
+.topbar{display:flex;align-items:center;justify-content:flex-start;}
+.back-btn{border:none;background:#ff5e62;color:white;padding:8px 14px;border-radius:10px;font-weight:700;cursor:pointer;}
+.menu-box{padding:16px;overflow:auto;flex:1;}
+.section{margin:24px 0;background:linear-gradient(135deg,#fbc2eb,#a6c1ee);padding:16px;border-radius:12px;}
+.section h2{color:darkblue;margin:0 0 10px 0;}
+.items-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.item-btn{display:flex;align-items:center;justify-content:center;height:70px;border:none;border-radius:15px;background:linear-gradient(90deg,var(--accent),var(--primary));color:white;font-weight:700;font-size:16px;cursor:pointer;box-shadow:0 4px 8px rgba(0,0,0,0.15);transition:0.3s;}
+.item-btn:hover{transform:translateY(-5px);box-shadow:0 8px 15px rgba(0,0,0,0.3);}
 
-    .instructions {
-      font-weight: 700;
-      font-size: 18px;
-      color: #2f4f4f;
-      text-align: center;
-      margin: 12px 0;
-    }
+/* Bottom cart */
+.bottom-right{display:flex;justify-content:flex-end;padding:12px;}
+.cart-btn{background:#f8b400;border:none;padding:10px 18px;border-radius:15px;font-weight:800;font-size:18px;cursor:pointer;}
 
-    /* Table */
-    .table-grid {
-      display: grid;
-      grid-template-columns: repeat(5,1fr);
-      gap: 20px;
-      justify-items: center;
-      margin-top: 20px;
-    }
+/* Cart */
+.cart-layout{height:100vh;background:linear-gradient(180deg,#141E30,#243B55);color:white;padding:24px;box-sizing:border-box;}
+.cart-title{font-weight:800;font-size:28px;text-align:center;margin-bottom:10px;}
+.cart-list{background:#f0f0f0;color:#111;padding:10px;border-radius:8px;height:50vh;overflow:auto;font-size:18px;}
+.cart-controls{display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap;}
+.btn{padding:10px 18px;border-radius:12px;border:none;cursor:pointer;font-weight:700;}
+.reorder{background:#4CAF50;color:white;}
+.delete{background:#f44336;color:white;}
+.payment{background:#2196F3;color:white;}
+.total{font-weight:800;margin-top:8px;color:lightyellow;text-align:center;}
 
-    .table-btn {
-      width: 180px;
-      height: 70px;
-      border: none;
-      border-radius: 20px;
-      background: linear-gradient(90deg,#ff9966,#ff5e62);
-      color: white;
-      font-weight: 800;
-      font-size: 20px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .table-btn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
-    }
+/* Payment */
+.payment-layout{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:40px;background:linear-gradient(180deg,#f12711,#f5af19);}
+.pay-title{font-size:36px;font-weight:800;color:white;margin-bottom:20px;text-shadow:0 0 10px rgba(0,0,0,0.3);}
+.pay-buttons{display:flex;flex-direction:column;gap:15px;margin-bottom:20px;}
+.pay-buttons button{width:320px;padding:14px;border-radius:15px;border:none;font-weight:800;font-size:18px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.3);transition: transform 0.3s;}
+.pay-buttons button:hover{transform:scale(1.05);}
+.check{background:#4CAF50;color:white;}
+.cash-counter{background:#2196F3;color:white;}
+.cash-mobile{background:#FF5722;color:white;}
+.pay-msg{font-weight:700;color:white;font-size:22px;text-align:center;max-width:700px;}
 
-    /* Menu */
-    .menu-layout {height: calc(100vh - 60px);display:flex;flex-direction:column}
-    .topbar {display:flex;align-items:center;justify-content:flex-start}
-    .back-btn {border:none;background:#ff5e62;color:white;padding:8px 14px;border-radius:10px;font-weight:700;cursor:pointer}
-    .menu-box {padding:16px;overflow:auto;flex:1}
-    .section {margin:24px 0;background:linear-gradient(135deg,#fbc2eb,#a6c1ee);padding:16px;border-radius:12px}
-    .section h2 {color:darkblue;margin:0 0 10px 0}
-    .items-grid {display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-    .item-btn {
-      display:flex;align-items:center;justify-content:center;height:70px;
-      border:none;border-radius:15px;
-      background:linear-gradient(90deg,var(--accent),var(--primary));
-      color:white;font-weight:700;font-size:16px;cursor:pointer;
-      box-shadow:0 4px 8px rgba(0,0,0,0.15);transition:0.3s
-    }
-    .item-btn:hover {transform:translateY(-5px);box-shadow:0 8px 15px rgba(0,0,0,0.3)}
+/* Overlay */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;z-index:1000;}
+.popup{background:rgba(0,0,0,0.85);padding:26px;border-radius:18px;color:white;min-width:320px;text-align:center;}
+.popup input{font-size:20px;padding:8px 12px;width:120px;text-align:center;border-radius:6px;border:none;}
+.popup .ok{background:#4CAF50;color:white;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;margin-right:8px;}
+.popup .cancel{background:#f44336;color:white;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;}
+.hidden{display:none;}
 
-    .bottom-right {display:flex;justify-content:flex-end;padding:12px}
-    .cart-btn {background:#f8b400;border:none;padding:10px 18px;border-radius:15px;font-weight:800;font-size:18px;cursor:pointer}
+/* Mobile payment overlay */
+.payment-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;z-index:2000;flex-direction:column;color:white;font-weight:700;font-size:20px;text-align:center;padding:10px;box-sizing:border-box;animation:fadeIn 0.5s;}
+.payment-overlay img{max-width:85%;max-height:70%;border-radius:20px;box-shadow:0 8px 20px rgba(255,255,255,0.5);margin-bottom:20px;}
+.payment-overlay .msg{font-size:22px;color:#FFD700;}
 
-    /* Cart */
-    .cart-layout {
-      height: 100vh;
-      background: linear-gradient(180deg, #141E30, #243B55);
-      color: white;
-      padding: 24px;
-      box-sizing: border-box;
-    }
-
-    .cart-title {font-weight:800;font-size:28px;text-align:center;margin-bottom:10px;}
-    .cart-list {
-      background:#f0f0f0;color:#111;padding:10px;border-radius:8px;
-      height:50vh;overflow:auto;font-size:18px;
-    }
-    .cart-controls {display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap}
-    .btn {padding:10px 18px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
-    .reorder {background:#4CAF50;color:white}
-    .delete {background:#f44336;color:white}
-    .payment {background:#2196F3;color:white}
-    .total {font-weight:800;margin-top:8px;color:lightyellow;text-align:center}
-
-    /* Payment */
-    .payment-layout {
-      height:100vh;display:flex;flex-direction:column;align-items:center;
-      justify-content:flex-start;padding:40px;
-      background:linear-gradient(180deg,#f12711,#f5af19);
-      animation: fadeIn 0.5s ease;
-    }
-    @keyframes fadeIn {from{opacity:0}to{opacity:1}}
-    .fade-out {animation: fadeOut 1s forwards;}
-    @keyframes fadeOut {from{opacity:1;}to{opacity:0;}}
-
-    .pay-title {font-size:36px;font-weight:800;color:white;margin-bottom:20px;text-shadow:0 0 10px rgba(0,0,0,0.3);}
-    .pay-buttons {display:flex;flex-direction:column;gap:15px;margin-bottom:20px}
-    .pay-buttons button {
-      width:320px;padding:14px;border-radius:15px;border:none;
-      font-weight:800;font-size:18px;cursor:pointer;
-      box-shadow:0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
-    }
-    .pay-buttons button:hover {transform: scale(1.05);}
-    .check {background:#4CAF50;color:white}
-    .cash-counter {background:#2196F3;color:white}
-    .cash-mobile {background:#FF5722;color:white}
-    .pay-msg {font-weight:700;color:white;font-size:22px;text-align:center;max-width:700px;}
-
-    /* Overlay / popup */
-    .overlay {position:fixed;inset:0;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;z-index:1000}
-    .popup {background:rgba(0,0,0,0.85);padding:26px;border-radius:18px;color:white;min-width:320px;text-align:center}
-    .popup input {font-size:20px;padding:8px 12px;width:120px;text-align:center;border-radius:6px;border:none}
-    .popup .ok {background:#4CAF50;color:white;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;margin-right:8px}
-    .popup .cancel {background:#f44336;color:white;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
-    .hidden {display:none}
-
-    /* Mobile payment overlay */
-    .payment-overlay {
-      position: fixed;inset: 0;background: rgba(0,0,0,0.9);
-      display: flex;align-items: center;justify-content: center;
-      z-index: 2000;flex-direction: column;color: white;font-weight: 700;
-      font-size: 20px;text-align: center;padding: 10px;box-sizing: border-box;
-      animation: fadeIn 0.5s ease;
-    }
-    .payment-overlay img {
-      max-width: 85%;max-height: 70%;border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(255,255,255,0.5);
-      margin-bottom: 20px;
-    }
-    .payment-overlay .msg {font-size: 22px;color: #FFD700;}
-
-    /* Responsive Design */
-    @media (max-width: 1200px){
-      .container{width:95%;padding:20px;}
-      .title{font-size:36px;}
-      .instructions{font-size:16px;}
-      .table-btn{width:150px;height:60px;font-size:18px;}
-      .item-btn{font-size:14px;height:60px;}
-      .pay-buttons button{width:250px;font-size:16px;}
-      .pay-title{font-size:28px;}
-    }
-    @media (max-width: 768px){
-      .table-grid{grid-template-columns:repeat(3,1fr);}
-      .items-grid{grid-template-columns:1fr;}
-      .cart-controls{flex-direction:column;align-items:center;}
-      .cart-list{height:40vh;font-size:16px;}
-      .total{font-size:16px;}
-      .cart-btn{font-size:16px;padding:8px 12px;}
-    }
-    @media (max-width: 480px){
-      .title{font-size:28px;}
-      .instructions{font-size:14px;}
-      .table-btn{width:120px;height:50px;font-size:16px;}
-      .item-btn{font-size:12px;height:50px;}
-      .pay-buttons button{width:200px;font-size:14px;}
-      .pay-title{font-size:24px;}
-      .cart-title{font-size:22px;}
-      .cart-list{height:35vh;font-size:14px;}
-      .total{font-size:14px;}
-    }
-  </style>
+/* Responsive */
+@media(max-width:1200px){.title{font-size:36px;}.instructions{font-size:16px;}.table-btn{width:150px;height:60px;font-size:18px;}.item-btn{font-size:14px;height:60px;}.pay-buttons button{width:250px;font-size:16px;}.pay-title{font-size:28px;}}
+@media(max-width:768px){.table-grid{grid-template-columns:repeat(3,1fr);}.items-grid{grid-template-columns:1fr;}.cart-controls{flex-direction:column;align-items:center;}.cart-list{height:40vh;font-size:16px;}.total{font-size:16px;}.cart-btn{font-size:16px;padding:8px 12px;}}
+@media(max-width:480px){.table-grid{grid-template-columns:repeat(2,1fr);gap:12px;}.table-btn{width:120px;height:50px;font-size:16px;}.item-btn{font-size:12px;height:50px;}.pay-buttons button{width:200px;font-size:14px;}.pay-title{font-size:24px;}.cart-title{font-size:22px;}.cart-list{height:35vh;font-size:14px;}.total{font-size:14px;}}
+</style>
 </head>
 <body>
 <div class="root">
-  <div class="container" id="app">
-    <div id="page-tables">
-      <div class="title">✨ Welcome to Tech Hotel ✨</div>
-      <div class="instructions">📌 Instructions:<br>1. Select your table.<br>2. Select dishes with quantity.<br>3. Modify/delete items before payment.<br>4. Proceed to payment.</div>
-      <div class="table-grid" id="tableGrid"></div>
-    </div>
+<div class="container" id="app">
 
-    <div id="page-menu" class="hidden">
-      <div class="menu-layout">
-        <div class="topbar"><button class="back-btn" id="backToTables">⬅ Back</button></div>
-        <div class="menu-box" id="menuBox"></div>
-        <div class="bottom-right"><button class="cart-btn" id="viewCart">🛒 View Cart</button></div>
-      </div>
-    </div>
+<!-- Table Selection Page -->
+<div id="page-tables" class="page active">
+  <div class="title">✨ Welcome to Tech Hotel ✨</div>
+  <div class="instructions">📌 Instructions:<br>1. Select your table.<br>2. Select dishes with quantity.<br>3. Modify/delete items before payment.<br>4. Proceed to payment.</div>
+  <div class="table-grid" id="tableGrid"></div>
+</div>
 
-    <div id="page-cart" class="hidden">
-      <div class="cart-layout">
-        <div class="cart-title">🛒 Cart for Table <span id="cartTableNum">0</span></div>
-        <div class="cart-list" id="cartList"></div>
-        <div class="total" id="totalLabel">Total Bill: ₹0</div>
-        <div class="cart-controls">
-          <button class="btn reorder" id="reorderBtn">🔄 Reorder</button>
-          <button class="btn delete" id="deleteBtn">🗑 Delete Order</button>
-          <button class="btn payment" id="paymentBtn">💳 Payment</button>
-        </div>
-      </div>
-    </div>
+<!-- Menu Page -->
+<div id="page-menu" class="page hidden">
+  <div class="menu-layout">
+    <div class="topbar"><button class="back-btn" id="backToTables">⬅ Back</button></div>
+    <div class="menu-box" id="menuBox"></div>
+    <div class="bottom-right"><button class="cart-btn" id="viewCart">🛒 View Cart</button></div>
+  </div>
+</div>
 
-    <div id="page-payment" class="hidden">
-      <div class="payment-layout" id="paymentLayout">
-        <div class="pay-title">💰 Payment Options</div>
-        <div class="pay-buttons">
-          <button class="check" id="checkItemsBtn">✅ Check Items</button>
-          <button class="cash-counter" id="cashCounterBtn">💵 Cash at Counter</button>
-          <button class="cash-mobile" id="cashMobileBtn">📱 Cash via Mobile</button>
-        </div>
-        <div class="pay-msg" id="payMsg"></div>
-      </div>
+<!-- Cart Page -->
+<div id="page-cart" class="page hidden">
+  <div class="cart-layout">
+    <div class="cart-title">🛒 Cart for Table <span id="cartTableNum">0</span></div>
+    <div class="cart-list" id="cartList"></div>
+    <div class="total" id="totalLabel">Total Bill: ₹0</div>
+    <div class="cart-controls">
+      <button class="btn reorder" id="reorderBtn">🔄 Reorder</button>
+      <button class="btn delete" id="deleteBtn">🗑 Delete Order</button>
+      <button class="btn payment" id="paymentBtn">💳 Payment</button>
     </div>
   </div>
+</div>
+
+<!-- Payment Page -->
+<div id="page-payment" class="page hidden">
+  <div class="payment-layout" id="paymentLayout">
+    <div class="pay-title">💰 Payment Options</div>
+    <div class="pay-buttons">
+      <button class="check" id="checkItemsBtn">✅ Check Items</button>
+      <button class="cash-counter" id="cashCounterBtn">💵 Cash at Counter</button>
+      <button class="cash-mobile" id="cashMobileBtn">📱 Cash via Mobile</button>
+    </div>
+    <div class="pay-msg" id="payMsg"></div>
+  </div>
+</div>
+
+</div>
 </div>
 
 <div id="overlayRoot" class="hidden"></div>
 
 <script>
-let selectedTable = 0;
-const cart = new Map();
-const priceMap = new Map();
+let selectedTable=0;
+const cart=new Map(),priceMap=new Map();
+const pages={tables:document.getElementById('page-tables'),menu:document.getElementById('page-menu'),cart:document.getElementById('page-cart'),payment:document.getElementById('page-payment')};
+const tableGrid=document.getElementById('tableGrid'),menuBox=document.getElementById('menuBox');
+const viewCartBtn=document.getElementById('viewCart'),backToTables=document.getElementById('backToTables');
+const cartList=document.getElementById('cartList'),totalLabel=document.getElementById('totalLabel');
+const cartTableNum=document.getElementById('cartTableNum'),reorderBtn=document.getElementById('reorderBtn');
+const deleteBtn=document.getElementById('deleteBtn'),paymentBtn=document.getElementById('paymentBtn');
+const checkItemsBtn=document.getElementById('checkItemsBtn'),cashCounterBtn=document.getElementById('cashCounterBtn');
+const cashMobileBtn=document.getElementById('cashMobileBtn'),payMsg=document.getElementById('payMsg');
+const overlayRoot=document.getElementById('overlayRoot');
 
-// Elements
-const pageTables = document.getElementById('page-tables');
-const pageMenu = document.getElementById('page-menu');
-const pageCart = document.getElementById('page-cart');
-const pagePayment = document.getElementById('page-payment');
-const paymentLayout = document.getElementById('paymentLayout');
-const tableGrid = document.getElementById('tableGrid');
-const menuBox = document.getElementById('menuBox');
-const viewCartBtn = document.getElementById('viewCart');
-const backToTables = document.getElementById('backToTables');
-const cartList = document.getElementById('cartList');
-const totalLabel = document.getElementById('totalLabel');
-const cartTableNum = document.getElementById('cartTableNum');
-const reorderBtn = document.getElementById('reorderBtn');
-const deleteBtn = document.getElementById('deleteBtn');
-const paymentBtn = document.getElementById('paymentBtn');
-const checkItemsBtn = document.getElementById('checkItemsBtn');
-const cashCounterBtn = document.getElementById('cashCounterBtn');
-const cashMobileBtn = document.getElementById('cashMobileBtn');
-const payMsg = document.getElementById('payMsg');
-const overlayRoot = document.getElementById('overlayRoot');
-
-// Menu
-const menuData = [
+const menuData=[
   {section:'Breakfast',items:[['Idli',20],['Vada',25],['Pongal',30],['Upma',25],['Dosa',35],['Masala Dosa',50]]},
   {section:'Lunch',items:[['Steamed Rice',30],['Lemon Rice',30],['Veg Biryani',60],['Paneer Butter Masala',70]]},
   {section:'Dinner',items:[['Chapati',10],['Paneer Bhurji',60],['Veg Pulao',50]]},
   {section:'Drinks',items:[['Lemon Juice',20],['Coffee',20],['Tea',10]]}
 ];
-menuData.forEach(sec => sec.items.forEach(it => priceMap.set(it[0], it[1])));
+menuData.forEach(sec=>sec.items.forEach(it=>priceMap.set(it[0],it[1])));
 
 // Build tables
-for(let i=1;i<=10;i++){
-  const btn=document.createElement('button');
-  btn.className='table-btn';
-  btn.textContent='Table '+i;
-  btn.addEventListener('click',()=>{selectedTable=i;showMenuPage();requestFullscreenSafe();});
-  tableGrid.appendChild(btn);
-}
+for(let i=1;i<=10;i++){const b=document.createElement('button');b.className='table-btn';b.textContent='Table '+i;b.onclick=()=>{selectedTable=i;showPage('menu');requestFullscreenSafe();buildMenu();};tableGrid.appendChild(b);}
 
+// Show Page with slide animation
 function showPage(p){
-  [pageTables,pageMenu,pageCart,pagePayment].forEach(pg=>pg.classList.add('hidden'));
-  p.classList.remove('hidden');
+  Object.values(pages).forEach(pg=>{pg.classList.add('hidden');pg.classList.remove('active');});
+  pages[p].classList.remove('hidden');setTimeout(()=>pages[p].classList.add('active'),50);
 }
 
-function showMenuPage(){buildMenu();showPage(pageMenu);}
-backToTables.addEventListener('click',()=>showPage(pageTables));
+// Menu
+backToTables.onclick=()=>showPage('tables');
+function buildMenu(){menuBox.innerHTML='';menuData.forEach(sec=>{const s=document.createElement('div');s.className='section';const h=document.createElement('h2');h.textContent=sec.section;s.appendChild(h);const g=document.createElement('div');g.className='items-grid';sec.items.forEach(([n,p])=>{const b=document.createElement('button');b.className='item-btn';b.textContent=`${n} - ₹${p}`;b.onclick=()=>showQuantityPopup(n,true);g.appendChild(b);});s.appendChild(g);menuBox.appendChild(s);});}
 
-function buildMenu(){
-  menuBox.innerHTML='';
-  menuData.forEach(sec=>{
-    const s=document.createElement('div');s.className='section';
-    const h=document.createElement('h2');h.textContent=sec.section;s.appendChild(h);
-    const g=document.createElement('div');g.className='items-grid';
-    sec.items.forEach(([n,p])=>{
-      const b=document.createElement('button');b.className='item-btn';
-      b.textContent=`${n} - ₹${p}`;b.onclick=()=>showQuantityPopup(n,true);g.appendChild(b);
-    });s.appendChild(g);menuBox.appendChild(s);
-  });
-}
+// Cart
+viewCartBtn.onclick=()=>{cartTableNum.textContent=selectedTable;refreshCartList();showPage('cart');};
+function refreshCartList(){cartList.innerHTML='';for(const [n,q] of cart.entries()){const sub=(priceMap.get(n)||0)*q;const el=document.createElement('div');el.textContent=`${n} x ${q} = ₹${sub}`;el.style.padding='8px';el.style.borderBottom='1px solid #ccc';el.dataset.item=n;el.onclick=()=>{document.querySelectorAll('#cartList div').forEach(d=>d.style.background='');el.style.background='#ddd';};cartList.appendChild(el);}updateTotal();}
+function updateTotal(){let t=0;for(const [n,q]of cart.entries())t+=(priceMap.get(n)||0)*q;totalLabel.textContent=`Total Bill: ₹${t}`;return t;}
 
-viewCartBtn.onclick=()=>{refreshCartList();cartTableNum.textContent=selectedTable;showPage(pageCart);};
+reorderBtn.onclick=()=>showPage('menu');
+deleteBtn.onclick=()=>{const s=document.querySelector('#cartList div[style*="background"]');if(!s)return showInternalMsg('Select item to delete');showQuantityPopup(s.dataset.item,false);};
+paymentBtn.onclick=()=>{showPage('payment');payMsg.textContent='';};
 
-function refreshCartList(){
-  cartList.innerHTML='';
-  for(const [n,q] of cart.entries()){
-    const sub=(priceMap.get(n)||0)*q;
-    const el=document.createElement('div');
-    el.textContent=`${n} x ${q} = ₹${sub}`;
-    el.style.padding='8px';el.style.borderBottom='1px solid #ccc';el.dataset.item=n;
-    el.onclick=()=>{document.querySelectorAll('#cartList div').forEach(d=>d.style.background='');el.style.background='#ddd';};
-    cartList.appendChild(el);
-  }
-  updateTotal();
-}
+function showInternalMsg(m){const o=document.createElement('div');o.className='overlay';const p=document.createElement('div');p.className='popup';p.innerHTML=`<div style="color:yellow">${m}</div>`;o.appendChild(p);document.body.appendChild(o);setTimeout(()=>o.remove(),1500);}
+function showQuantityPopup(n,add){overlayRoot.innerHTML='';overlayRoot.classList.remove('hidden');overlayRoot.classList.add('overlay');const p=document.createElement('div');p.className='popup';const l=document.createElement('div');l.style.marginBottom='10px';l.textContent=(add?'Enter quantity for ':'Enter quantity to delete for ')+n;const i=document.createElement('input');i.type='number';i.value='1';i.min='1';const box=document.createElement('div');box.style.marginTop='12px';const ok=document.createElement('button');ok.className='ok';ok.textContent='OK';const cancel=document.createElement('button');cancel.className='cancel';cancel.textContent='Cancel';ok.onclick=()=>{const qty=parseInt(i.value);if(isNaN(qty)||qty<=0)return;if(add){cart.set(n,(cart.get(n)||0)+qty);}else{const cur=cart.get(n)||0;const newQ=cur-qty;if(newQ>0)cart.set(n,newQ);else cart.delete(n);}overlayRoot.classList.add('hidden');overlayRoot.innerHTML='';refreshCartList();};cancel.onclick=()=>{overlayRoot.classList.add('hidden');overlayRoot.innerHTML='';};box.appendChild(ok);box.appendChild(cancel);p.appendChild(l);p.appendChild(i);p.appendChild(box);overlayRoot.appendChild(p);}
 
-function updateTotal(){
-  let t=0;for(const [n,q]of cart.entries())t+=(priceMap.get(n)||0)*q;
-  totalLabel.textContent=`Total Bill: ₹${t}`;return t;
-}
+// Payment
+checkItemsBtn.onclick=()=>{const total=updateTotal();payMsg.innerHTML=`✅ Items Checked!<br>Your total bill is <b>₹${total}</b>.<br>Please proceed to payment.`;}
+function finishPayment(){cart.clear();showPage('tables');}
 
-reorderBtn.onclick=()=>showMenuPage();
-deleteBtn.onclick=()=>{
-  const s=document.querySelector('#cartList div[style*="background"]');
-  if(!s)return showInternalMsg('Select item to delete');
-  showQuantityPopup(s.dataset.item,false);
-};
-paymentBtn.onclick=()=>{showPage(pagePayment);payMsg.textContent='';};
+cashCounterBtn.onclick=()=>{const total=updateTotal();payMsg.innerHTML=`💵 Please pay <b>₹${total}</b> at the counter.<br>Thank you for dining with us! 😊`;setTimeout(finishPayment,15000);}
 
-function showInternalMsg(m){
-  const o=document.createElement('div');o.className='overlay';
-  const p=document.createElement('div');p.className='popup';
-  p.innerHTML=`<div style="color:yellow">${m}</div>`;
-  o.appendChild(p);document.body.appendChild(o);setTimeout(()=>o.remove(),1500);
-}
+cashMobileBtn.onclick=()=>{const total=updateTotal();const overlay=document.createElement('div');overlay.className='payment-overlay';overlay.innerHTML=`<img src="cash.jpeg" alt="QR Code for Payment"/><div class="msg">📱 Scan and Pay ₹${total}<br>Thank you! 🙏</div>`;overlay.onclick=()=>overlay.remove();document.body.appendChild(overlay);setTimeout(()=>{overlay.remove();finishPayment();},15000);}
 
-function showQuantityPopup(n,add){
-  overlayRoot.innerHTML='';overlayRoot.classList.remove('hidden');overlayRoot.classList.add('overlay');
-  const p=document.createElement('div');p.className='popup';
-  const l=document.createElement('div');l.style.marginBottom='10px';
-  l.textContent=(add?'Enter quantity for ':'Enter quantity to delete for ')+n;
-  const i=document.createElement('input');i.type='number';i.value='1';i.min='1';
-  const box=document.createElement('div');box.style.marginTop='12px';
-  const ok=document.createElement('button');ok.className='ok';ok.textContent='OK';
-  const cancel=document.createElement('button');cancel.className='cancel';cancel.textContent='Cancel';
-  ok.onclick=()=>{
-    const qty=parseInt(i.value);
-    if(isNaN(qty)||qty<=0)return;
-    if(add){
-      cart.set(n,(cart.get(n)||0)+qty);
-    }else{
-      const cur=cart.get(n)||0;
-      const newQ=cur-qty;
-      if(newQ>0)cart.set(n,newQ);
-      else cart.delete(n);
-    }
-    overlayRoot.classList.add('hidden');
-    overlayRoot.innerHTML='';
-    refreshCartList();
-  };
-  cancel.onclick=()=>{overlayRoot.classList.add('hidden');overlayRoot.innerHTML='';};
-  box.appendChild(ok);box.appendChild(cancel);
-  p.appendChild(l);p.appendChild(i);p.appendChild(box);
-  overlayRoot.appendChild(p);
-}
-
-checkItemsBtn.onclick=()=>{
-  const total=updateTotal();
-  payMsg.innerHTML=`✅ Items Checked!<br>Your total bill is <b>₹${total}</b>.<br>Please proceed to payment.`;
-};
-
-cashCounterBtn.onclick=()=>{
-  const total=updateTotal();
-  payMsg.innerHTML=`💵 Please pay <b>₹${total}</b> at the counter.<br>Thank you for dining with us! 😊`;
-
-  // Auto-return after 15s
-  setTimeout(()=>{
-    cart.clear();
-    pagePayment.classList.add('fade-out');
-    setTimeout(()=>{pagePayment.classList.remove('fade-out'); showPage(pageTables);},1000);
-  },15000);
-};
-
-cashMobileBtn.onclick=()=>{
-  const total=updateTotal();
-  const overlay=document.createElement('div');
-  overlay.className='payment-overlay';
-  overlay.innerHTML=`
-    <img src="cash.jpeg" alt="QR Code for Payment" />
-    <div class="msg">📱 Scan and Pay ₹${total}<br>Thank you! 🙏</div>
-  `;
-  overlay.onclick=()=>overlay.remove();
-  document.body.appendChild(overlay);
-
-  // Auto-return after 15s
-  setTimeout(()=>{
-    cart.clear();
-    overlay.remove();
-    pagePayment.classList.add('fade-out');
-    setTimeout(()=>{pagePayment.classList.remove('fade-out'); showPage(pageTables);},1000);
-  },15000);
-};
-
-function requestFullscreenSafe(){
-  const el=document.documentElement;
-  if(el.requestFullscreen){el.requestFullscreen();}
-  else if(el.webkitRequestFullscreen){el.webkitRequestFullscreen();}
-  else if(el.msRequestFullscreen){el.msRequestFullscreen();}
-}
+// Fullscreen for table selection
+function requestFullscreenSafe(){const el=document.documentElement;if(el.requestFullscreen){el.requestFullscreen();}else if(el.webkitRequestFullscreen){el.webkitRequestFullscreen();}else if(el.msRequestFullscreen){el.msRequestFullscreen();}}
 </script>
 </body>
 </html>
